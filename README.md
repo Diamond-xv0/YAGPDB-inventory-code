@@ -1,5 +1,4 @@
-# All commands must be placed in the custom commands section of the YAGPDB bot control panel, as a command
-"Command (mention/cmd prefix)"
+# All commands must be placed in the custom commands section of the YAGPDB bot control panel, as a command "Command (mention/cmd prefix)"
 
 in the triggers it is recommended to place:
 
