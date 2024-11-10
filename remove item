@@ -1,0 +1,28 @@
+    {{ if hasRoleID "ID_of_staff_role" }}
+      {{ $args := parseArgs 3 "Usage: !remove item <@usuario> <cantidad> <ítem>" (carg "user" "Usuario" true) (carg "int" "Cantidad" true) (carg "string" "Ítem" true) }}
+      {{ $user := $args.Get 0 }}
+      {{ $cantidad := $args.Get 1 }}
+      {{ $item := $args.Get 2 }}
+      {{ $inventory := dbGet $user.ID "inventory" }}
+      {{ if $inventory.Value }}
+        {{ $newInventory := cslice }}
+        {{ $count := 0 }}
+        {{ range $inventory.Value }}
+          {{ if eq . $item }}
+            {{ if lt $count $cantidad }}
+              {{ $count = add $count 1 }}
+            {{ else }}
+              {{ $newInventory = $newInventory.Append . }}
+            {{ end }}
+          {{ else }}
+            {{ $newInventory = $newInventory.Append . }}
+          {{ end }}
+        {{ end }}
+        {{ dbSet $user.ID "inventory" $newInventory }}
+        Removed {{ $cantidad }} {{ $item }}(s) of the {{ $user.Mention }} inventory.
+      {{ else }}
+        The {{ $user.Mention }} inventory is empty.
+      {{ end }}
+    {{ else }}
+      Only staffs can use this command.
+    {{ end }}
