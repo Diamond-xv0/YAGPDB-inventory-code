@@ -1,0 +1,20 @@
+    {{ $args := parseArgs 0 "Usage: !view inventory [<@usuario>]" (carg "user" "Usuario" false) }}
+    {{ $user := or ($args.Get 0) .User }}
+    {{ $inventory := dbGet $user.ID "inventory" }}
+    {{ if not $inventory.Value }}
+      The {{ $user.Mention }} inventory is empty.
+    {{ else }}
+      {{ $itemsCount := dict }}
+      {{ range $inventory.Value }}
+        {{ $item := . }}
+        {{ $count := 1 }}
+        {{ if index $itemsCount $item }}
+          {{ $count = add (index $itemsCount $item) 1 }}
+        {{ end }}
+        {{ $itemsCount.Set $item $count }}
+      {{ end }}
+      The {{ $user.Mention }} inventory contains:
+      {{ range $k, $v := $itemsCount }}
+        **- {{ $k }} ({{ $v }})**
+      {{ end }}
+    {{ end }}
