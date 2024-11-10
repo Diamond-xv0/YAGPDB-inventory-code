@@ -8,3 +8,12 @@ remove item -> (for the command to remove items)
 view inventory -> (for the command to view inventory)
 
 and a recommended prefix is ​​"!"
+
+
+The commands for each item are structured as follows:
+!add item <@mention> <quantity> <object>
+!remove item <@mention> <quantity> <object>
+!view inventory (@mention)
+
+() = optional
+<> = required
