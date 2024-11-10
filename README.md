@@ -13,9 +13,9 @@ and a recommended prefix is ​​"!"
 
 The commands for each item are structured as follows:
 
-!add item <@mention> <quantity> <object>
+!add item <@mention><quantity><object>
 
-!remove item <@mention> <quantity> <object>
+!remove item <@mention><quantity><object>
 
 !view inventory (@mention)
 
