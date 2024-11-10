@@ -1,0 +1,19 @@
+    {{ if hasRoleID "ID_of_staff_rol" }}
+      {{ $args := parseArgs 3 "Usage: -additem <@usuario> <cantidad> <ítem>" (carg "user" "Usuario" true) (carg "int" "Cantidad" true) (carg "string" "Ítem" true) }}
+      {{ $user := $args.Get 0 }}
+      {{ $cantidad := $args.Get 1 }}
+      {{ $item := $args.Get 2 }}
+      {{ $inventory := dbGet $user.ID "inventory" }}
+      {{ if not $inventory.Value }}
+        {{ $inventory = cslice }}
+      {{ else }}
+        {{ $inventory = $inventory.Value }}
+      {{ end }}
+      {{ range seq 0 (sub $cantidad 1) }}
+        {{ $inventory = $inventory.Append $item }}
+      {{ end }}
+      {{ dbSet $user.ID "inventory" $inventory }}
+      Added {{ $cantidad }} {{ $item }}(s) to the {{ $user.Mention }} inventory.
+    {{ else }}
+      Only staffs can use this command
+    {{ end }}
